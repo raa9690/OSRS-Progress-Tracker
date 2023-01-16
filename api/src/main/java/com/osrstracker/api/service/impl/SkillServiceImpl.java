@@ -47,15 +47,16 @@ public class SkillServiceImpl implements SkillService {
     public SkillDto updateSkill(SkillDto skillDto, int id){
         Skill skill = skillRepo.findById(id).orElseThrow(() -> new SkillNotFoundException("Could not find skill"));
         
-        skill.setId(skillDto.getId());
         skill.setName(skillDto.getName());
+
+        skillRepo.save(skill);
 
         return mapToDto(skill);
     }
 
     @Override
     public SkillDto[] searchSkillByName(String name){
-        
+
         return null;
     }
 
