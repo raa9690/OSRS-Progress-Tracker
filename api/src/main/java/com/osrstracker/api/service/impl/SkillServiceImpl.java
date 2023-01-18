@@ -31,7 +31,13 @@ public class SkillServiceImpl implements SkillService {
 
     @Override
     public SkillDto[] getSkills(){
-        return null;
+        //temp functionality before reviewing how pageination works, so that I can implement ui features
+        SkillDto[] skillsArray= new SkillDto[5];
+        for (int i = 1; i <= 5; i ++){
+             Skill skillEntity = skillRepo.findById(i).orElseThrow(() -> new SkillNotFoundException("Could not find skill"));
+             skillsArray[i-1] = mapToDto(skillEntity);
+        }
+        return skillsArray;
     }
 
     @Override

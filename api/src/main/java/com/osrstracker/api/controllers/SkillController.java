@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import com.osrstracker.api.dto.SkillDto;
 import com.osrstracker.api.service.SkillService;
@@ -32,7 +33,10 @@ public class SkillController {
 
     @GetMapping("skills")
     public ResponseEntity<SkillDto[]> getSkills(){
-        return null;
+        // temporary get calls to test the ui before pageination stuff is implemented
+        SkillDto[] skills = skillService.getSkills();
+        System.out.println("\nTried to get skills\n");
+        return new ResponseEntity<>(skills, HttpStatus.OK);
     }
 
     @GetMapping("skills/{id}")
