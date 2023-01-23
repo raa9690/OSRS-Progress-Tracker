@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Skill } from './skill';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, tap, retry } from 'rxjs/operators';
+import { SkillDto } from './skillDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SkillService {
-  private skillsUrl = 'http://localhost8080/api/skills'
+
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
   constructor(
     private http: HttpClient
     ) { }
 
-  getSkills(): Observable<Skill[]>{
-    return this.http.get<Skill[]>(this.skillsUrl)   
+  getSkills(): Observable<SkillDto[]>{
+    return this.http.get<SkillDto[]>('http://localhost:8080/api/skills');
   }
 
 }

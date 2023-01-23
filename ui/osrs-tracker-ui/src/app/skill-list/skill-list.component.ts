@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Skill } from '../skill';
+import { SkillDto } from '../skillDto';
 import { SkillService } from '../skill.service';
-
-import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-skill-list',
@@ -10,24 +9,24 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./skill-list.component.css']
 })
 export class SkillListComponent implements OnInit {
-  skills: Skill[] = [];
-  testBool: boolean;
+  skills$: Observable<SkillDto[]> | undefined;
+  result: string = "did I fail?";
+  triedToSet: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private skillService: SkillService
-  ) { 
-    this.testBool = false;
-  }
+  ) {  }
 
   ngOnInit() {
     this.getSkills();
   }
 
   getSkills(): void {
-    this.skillService.getSkills()
-    .subscribe(skills => this.skills = skills);
+    this.skills$ = this.skillService.getSkills();
   }
 
+  didSetSkill(){
+    this.triedToSet = true;
+  }
 
 }

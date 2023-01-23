@@ -1,7 +1,10 @@
 <h2>Skill List</h2>
 
-<ul class="skills">
-    <li *ngFor="let skill of skills">
-        <span>{{skill.name}}</span>
+<button (click)="getSkills()">Get All Skills</button>
+<div *ngIf="triedToSet ==false">{{result}}</div>
+<ul >
+    Skill List
+    <li *ngFor="let skill of skills$ | async">
+        <div>{{skill.name}}</div>
     </li>
 </ul>
