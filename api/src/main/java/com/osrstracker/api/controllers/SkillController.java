@@ -1,5 +1,7 @@
 package com.osrstracker.api.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import com.osrstracker.api.dto.SkillDto;
 import com.osrstracker.api.service.SkillService;
@@ -31,18 +35,21 @@ public class SkillController {
     }
 
     @GetMapping("skills")
-    public ResponseEntity<SkillDto[]> getSkills(){
-        return null;
+    public ResponseEntity<List<SkillDto>> getSkills(
+        @RequestParam(value="PageNo", defaultValue = "0", required = false) int pageNo,
+        @RequestParam(value="PageSize", defaultValue = "25", required = false) int pageSize
+    ){
+        return new ResponseEntity<List<SkillDto>>(skillService.getSkills(pageNo,pageSize), HttpStatus.OK);
     }
 
     @GetMapping("skills/{id}")
     public ResponseEntity<SkillDto> getSkill(@PathVariable int id){
-        return new ResponseEntity<>(skillService.getSkill(id), HttpStatus.OK);
+        return new ResponseEntity<SkillDto>(skillService.getSkill(id), HttpStatus.OK);
     }
 
     @PutMapping("skills/{id}/update")
     public ResponseEntity<SkillDto> updateSkill(@RequestBody SkillDto skillDto, @PathVariable int id){
-        return new ResponseEntity<>(skillService.updateSkill(skillDto, id), HttpStatus.ACCEPTED);
+        return new ResponseEntity<SkillDto>(skillService.updateSkill(skillDto, id), HttpStatus.ACCEPTED);
     }
 
     
