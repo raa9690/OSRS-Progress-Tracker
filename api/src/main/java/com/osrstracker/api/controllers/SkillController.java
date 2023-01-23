@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import com.osrstracker.api.dto.SkillDto;
+import com.osrstracker.api.dto.SkillResponse;
 import com.osrstracker.api.service.SkillService;
 
 @RestController
@@ -35,11 +36,11 @@ public class SkillController {
     }
 
     @GetMapping("skills")
-    public ResponseEntity<List<SkillDto>> getSkills(
+    public ResponseEntity<SkillResponse> getSkills(
         @RequestParam(value="PageNo", defaultValue = "0", required = false) int pageNo,
-        @RequestParam(value="PageSize", defaultValue = "25", required = false) int pageSize
+        @RequestParam(value="PageSize", defaultValue = "10", required = false) int pageSize
     ){
-        return new ResponseEntity<List<SkillDto>>(skillService.getSkills(pageNo,pageSize), HttpStatus.OK);
+        return new ResponseEntity<SkillResponse>(skillService.getSkills(pageNo,pageSize), HttpStatus.OK);
     }
 
     @GetMapping("skills/{id}")

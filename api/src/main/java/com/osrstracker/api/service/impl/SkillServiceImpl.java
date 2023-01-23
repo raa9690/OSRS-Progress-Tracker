@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.osrstracker.api.dto.SkillDto;
+import com.osrstracker.api.dto.SkillResponse;
 import com.osrstracker.api.exceptions.SkillNotFoundException;
 import com.osrstracker.api.models.Skill;
 import com.osrstracker.api.repository.SkillRepository;
@@ -33,11 +37,21 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public List<SkillDto> getSkills(int pageNo, int pageSize){
-        //temp functionality before reviewing how pageination works, so that I can implement ui features
-        List<Skill> skills = skillRepo.findAll();
+    public SkillResponse getSkills(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Skill> skills = skillRepo.findAll(pageable);
+        List<Skill> listOfSkills = skills.getContent();
+        List<SkillDto> content = listOfSkills.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
 
-        return skills.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
+        SkillResponse response = new SkillResponse();
+        response.setContent(content);
+        response.setPageNo(skills.getNumber());
+        response.setPageSize(skills.getSize());
+        response.setTotalElements(skills.getTotalElements());
+        response.setTotalPages(skills.getTotalPages());
+        response.setLast(skills.isLast());
+
+        return response;
     }
 
     @Override

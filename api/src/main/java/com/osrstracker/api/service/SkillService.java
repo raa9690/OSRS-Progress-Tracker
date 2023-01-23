@@ -3,11 +3,12 @@ package com.osrstracker.api.service;
 import java.util.List;
 
 import com.osrstracker.api.dto.SkillDto;
+import com.osrstracker.api.dto.SkillResponse;
 import com.osrstracker.api.models.Skill;
 
 public interface SkillService {
     SkillDto createSkill(SkillDto skillDto);
-    List<SkillDto> getSkills(int pageNo, int pageSize);
+    SkillResponse getSkills(int pageNo, int pageSize);
     SkillDto getSkill(int id);
     // no delete skill
     SkillDto updateSkill(SkillDto skillDto, int id);
