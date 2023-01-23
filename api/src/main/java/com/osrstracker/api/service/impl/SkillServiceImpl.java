@@ -1,5 +1,8 @@
 package com.osrstracker.api.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +33,11 @@ public class SkillServiceImpl implements SkillService {
     }
 
     @Override
-    public SkillDto[] getSkills(){
-        return null;
+    public List<SkillDto> getSkills(int pageNo, int pageSize){
+        //temp functionality before reviewing how pageination works, so that I can implement ui features
+        List<Skill> skills = skillRepo.findAll();
+
+        return skills.stream().map(s -> mapToDto(s)).collect(Collectors.toList());
     }
 
     @Override
